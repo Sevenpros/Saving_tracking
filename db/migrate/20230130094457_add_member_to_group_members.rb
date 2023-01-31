@@ -1,5 +1,5 @@
 class AddMemberToGroupMembers < ActiveRecord::Migration[7.0]
   def change
-    add_reference :group_members, :member, null: false, foreign_key: true
+    add_reference :groups_members, :member, null: false, foreign_key: true
   end
 end

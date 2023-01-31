@@ -24,19 +24,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_103551) do
     t.index ["member_id"], name: "index_distributions_on_member_id"
   end
 
-  create_table "group_members", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "member_id", null: false
-    t.bigint "group_id", null: false
-    t.index ["group_id"], name: "index_group_members_on_group_id"
-    t.index ["member_id"], name: "index_group_members_on_member_id"
-  end
-
   create_table "groups", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "groups_members", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "member_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["group_id"], name: "index_groups_members_on_group_id"
+    t.index ["member_id"], name: "index_groups_members_on_member_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -60,8 +60,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_103551) do
 
   add_foreign_key "distributions", "groups"
   add_foreign_key "distributions", "members"
-  add_foreign_key "group_members", "groups"
-  add_foreign_key "group_members", "members"
+  add_foreign_key "groups_members", "groups"
+  add_foreign_key "groups_members", "members"
   add_foreign_key "savings", "groups"
   add_foreign_key "savings", "members"
 end

@@ -1,4 +1,4 @@
-class GroupMembersController < ApplicationController
+class GroupsMembersController < ApplicationController
   before_action :set_group_member, only: %i[ show update destroy ]
 
   # GET /group_members
