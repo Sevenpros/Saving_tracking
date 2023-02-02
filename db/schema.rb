@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_30_103551) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_01_075306) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "credits", force: :cascade do |t|
+    t.decimal "amount"
+    t.decimal "interest"
+    t.string "status"
+    t.datetime "pay_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "group_id", null: false
+    t.bigint "member_id", null: false
+    t.index ["group_id"], name: "index_credits_on_group_id"
+    t.index ["member_id"], name: "index_credits_on_member_id"
+  end
 
   create_table "distributions", force: :cascade do |t|
     t.decimal "amount"
@@ -48,6 +61,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_103551) do
     t.text "last_name"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "credit_id", null: false
+    t.bigint "member_id", null: false
+    t.index ["credit_id"], name: "index_payments_on_credit_id"
+    t.index ["member_id"], name: "index_payments_on_member_id"
+  end
+
   create_table "savings", force: :cascade do |t|
     t.decimal "amount"
     t.datetime "created_at", null: false
@@ -58,10 +81,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_103551) do
     t.index ["member_id"], name: "index_savings_on_member_id"
   end
 
+  add_foreign_key "credits", "groups"
+  add_foreign_key "credits", "members"
   add_foreign_key "distributions", "groups"
   add_foreign_key "distributions", "members"
   add_foreign_key "groups_members", "groups"
   add_foreign_key "groups_members", "members"
+  add_foreign_key "payments", "credits"
+  add_foreign_key "payments", "members"
   add_foreign_key "savings", "groups"
   add_foreign_key "savings", "members"
 end

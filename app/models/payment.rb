@@ -1,6 +1,6 @@
-class Saving < ApplicationRecord
-    belongs_to :group
+class Payment < ApplicationRecord
     belongs_to :member
+    belongs_to :credit
 
     validates :amount, presence: true
 end
